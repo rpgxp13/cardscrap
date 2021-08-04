@@ -23,10 +23,11 @@ class Scrap:
 
 
 class SemPlus(Scrap):
+    def __init__(self, uid, password, from_date, to_date):
+        super().__init__(uid, password, from_date, to_date)
+
     def login(self):
         url_login = "https://semplus.kisvan.co.kr/login/login.do"
-
-        print (self.uid, self.password)
         res = self.session.post(url_login, json=dp.get_userinfo(self.uid, self.password))
         self.session.cookies.get_dict()
         res.raise_for_status()
@@ -53,9 +54,34 @@ class SemPlus(Scrap):
         return result
 
 
-class VanKICC(Scrap):
+class KICC(Scrap):
+    def __init__(self, uid, password, from_date, to_date):
+        super().__init__(uid, password, from_date, to_date)
+        self.wmonid = ""
+        self.mbr_id = ""
+
     def login(self):
-        pass
+        url = "https://smarteasyshop.kicc.co.kr/smart_kicc/index.jsp"
+        res = self.session.post(url, data=dp.get_kicc_login_form(self.uid, self.password))
+        res.raise_for_status()
+
+        self.wmonid = self.session.cookies.get_dict()['WMONID']
+
+        url = "https://smarteasyshop.kicc.co.kr/login.do"
+        res = self.session.post(url, data=dp.get_login_do_xml(self.uid, self.password, self.wmonid))
+        res.raise_for_status()
+
+        self.mbr_id = dp.get_member_id(res.text)
 
     def scrap(self):
-        pass
+        url = "https://smarteasyshop.kicc.co.kr/CallService.do"
+        res = self.session.post(url,
+                                data=dp.get_call_service_do_xml(self.wmonid, self.mbr_id, self.from_date, self.to_date))
+        res.raise_for_status()
+
+        return res.text
+
+
+class NICE(Scrap):
+    def login(self):
+        url = "https://newnibs.nicevan.co.kr/"

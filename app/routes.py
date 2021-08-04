@@ -1,6 +1,6 @@
 from app import app
 from flask import request
-from app.models import SemPlus
+from app.models import SemPlus, KICC
 import json
 
 
@@ -13,6 +13,8 @@ def scrap(company: str):
 
     if company.lower() == 'semplus':
         card_compay = SemPlus(uid, password, from_date, to_date)
+    elif company.lower() == 'kicc':
+        card_compay = KICC(uid, password, from_date, to_date)
     else:
         return json.dumps({'status': 500, 'data': []})
 
