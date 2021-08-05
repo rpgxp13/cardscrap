@@ -35,11 +35,11 @@ class SemPlus(Scrap):
     def scrap(self):
         page_index = 1
 
-        url_selectCreditTranList = "https://semplus.kisvan.co.kr/management/TranLstMng/selectCreditTranList.do"
+        url_select_credit_tran_list = "https://semplus.kisvan.co.kr/management/TranLstMng/selectCreditTranList.do"
 
         result = {'status': 200, 'data': []}
         while True:
-            res = self.session.post(url_selectCreditTranList,
+            res = self.session.post(url_select_credit_tran_list,
                                     json=dp.get_search_info(self.from_date, self.to_date, page_index))
             res.raise_for_status()
 

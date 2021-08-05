@@ -1,6 +1,6 @@
 
 def get_userinfo(uid, password):
-    userInfo = {'userInfo': {
+    user_info = {'userInfo': {
         "userId": uid,
         "pwd": password,
         "randomNum": "",
@@ -9,11 +9,23 @@ def get_userinfo(uid, password):
         "resultCode": "",
         "certNo": ""
     }}
-    return userInfo
+    return user_info
+
+
+def get_login_data(uid, password):
+    login_info = {
+        "userCd": uid,
+        "password": password,
+        "tlsVer": "1.3",
+        "useOS": "Windows 10 64bit",
+        "useBrowser": "Chrome"
+    }
+
+    return login_info
 
 
 def get_search_info(from_date, to_date, page_index):
-    searchInfo = {'searchInfo': {
+    search_info = {'searchInfo': {
         "qKind": "1", "excelYn": "N", "custClsf": "1", "custId": "", "userGubnCode": "MER", "custCnt": "",
         "selKind": "3", "timeGubn": "", "dayGubn": "T", "fromDate": from_date, "fromTime": "00",
         "fromMin": "00", "toDate": to_date, "toTime": "00", "toMin": "00", "crdfiGubn": "1",
@@ -21,14 +33,15 @@ def get_search_info(from_date, to_date, page_index):
         "trGubn": "", "cardGubn": "", "fromAmt": "", "toAmt": "", "kisRespCode": "", "ftKind": "1",
         "pageUnit": "", "pageIndex": page_index, "pageSize": "", "yyyy": from_date[:4], "trType": "", "setName": ""
     }}
-    return searchInfo
+    return search_info
 
 
 def get_kicc_login_form(uid, password):
     post_data = {
         "gv_ssoId": uid,
         "gv_ssoPw": password,
-        "gv_ssoPathGbn": "https://www.easyshop.co.kr/taxLogn/taxLognLogin.kicc?nextURL=https://www.easyshop.co.kr/taxMain/taxMain.kicc"
+        "gv_ssoPathGbn": "https://www.easyshop.co.kr/taxLogn/taxLognLogin.kicc?"
+                         "nextURL=https://www.easyshop.co.kr/taxMain/taxMain.kicc"
     }
 
     return post_data
@@ -160,10 +173,10 @@ def get_call_service_do_xml(wmonid, mbr_id, from_date, to_date):
 
 
 def get_member_id(text):
-    startKey = "<Col id=\"mbr_id\">"
-    endKey = "</Col>"
+    start_key = "<Col id=\"mbr_id\">"
+    end_key = "</Col>"
 
-    startIndex = text.find(startKey) + len(startKey)
-    endIndex = text.find(endKey, startIndex)
+    start_index = text.find(start_key) + len(start_key)
+    end_index = text.find(end_key, start_index)
 
-    return text[startIndex:endIndex]
+    return text[start_index:end_index]

@@ -12,14 +12,16 @@ def scrap(company: str):
     to_date = request.args.get('to-date')
 
     if company.lower() == 'semplus':
-        card_compay = SemPlus(uid, password, from_date, to_date)
+        card_company = SemPlus(uid, password, from_date, to_date)
     elif company.lower() == 'kicc':
-        card_compay = KICC(uid, password, from_date, to_date)
+        card_company = KICC(uid, password, from_date, to_date)
+    elif company.lower() == 'jms':
+        card_company = KICC(uid, password, from_date, to_date)
     else:
         return json.dumps({'status': 500, 'data': []})
 
-    card_compay.login()
-    result = card_compay.scrap()
+    card_company.login()
+    result = card_company.scrap()
     return result
 
     #return json.dumps({'company': company, 'uid': uid, 'password': password, 'from-date': from_date, 'to-date': to_date})
